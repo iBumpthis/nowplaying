@@ -4,6 +4,10 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
+.center {
+    text-align: center;
+}
+
 /* Table Styling */
 table {
     width: 100%;
@@ -31,13 +35,35 @@ td {
     background-color: lightgrey;
 }
 
+/* Sticky header for the first header row (column names) */
+thead tr:first-child th {
+    background-color: lightslategray;
+    position: sticky;
+    top: 0;
+    border: 1px solid black;
+    z-index: 3; /* Higher z-index to overlap the filter row */
+  }
+  
+  /* Sticky header for the second header row (dropdown filters) */
+  thead tr:nth-child(2) th {
+    background-color: lightslategray;
+    position: sticky;
+    top: 35px; /* Adjust this value based on your first row's height */
+    z-index: 2;
+    border: 1px solid black;
+  }
+
 /* Search Input Styling */
 #searchInput {
-    width: 50%;
+    width: 33%;
     padding: 8px;
     margin-bottom: 10px;
     display: block;
     font-size: 16px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 /* Button Styling */
@@ -59,4 +85,10 @@ button:hover {
     background-color: mediumblue !important;
     color: white;
     font-weight: bold;
+}  
+
+/* Hide Column E (the 5th column) */
+#csvTable th:nth-child(5),
+#csvTable td:nth-child(5) {
+    display: none;
 }

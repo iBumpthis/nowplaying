@@ -8,20 +8,27 @@
             <link rel="stylesheet" href="styles.css">
         </head>
 <body>
-    <h2>Record Collection</h2>
-    
-    <!-- Search Input for Filtering -->
-    <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()">
+    <!-- Main Body -->
+    <div class="center">
+        <h2>Spin Some Vinyl</h2>
+    </div>
+    <div class="search">
+        <!-- Search from Rows -->
+        <input type="text" id="searchInput" placeholder="Search..." onkeyup="applyFilters()"> 
+    </div>
+    <div class="center">
+        <!-- Random Record Button -->
+        <button onclick="pickRandomRow()">Choose a Random Record</button>
+    </div>
+    <div id="rowCount" style="text-align: center; margin-top: 5px;"></div>
 
-    <!-- Button to Select Random Row -->
-    <button onclick="pickRandomRow()">Choose Random from Visible</button>
-    
+    <!-- Google Sheets Table -->
     <table id="csvTable">
         <thead></thead>
         <tbody></tbody>
     </table>
-    
-    <script src="main.js"></script> <!-- Link to external JS file -->
+
+    <script src="main.js"></script>
 
 </body>
 </html>

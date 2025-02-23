@@ -1,5 +1,6 @@
-let tableData = []; // Store original data for sorting & filtering
-let filteredData = []; // Store filtered data for random selection
+let tableData = [];    // Full data from the sheet
+let filteredData = []; // Data after applying search/dropdown filters
+let selectedRow = null; // Track currently highlighted row
 
 async function loadGoogleSheetsData() {
     const sheetId = "INSERT_SHEET_ID"; // Replace with your Google Sheets ID
@@ -11,81 +12,114 @@ async function loadGoogleSheetsData() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        tableData = data.values || []; // Store original data
+        console.log("Loaded data:", data);
 
-        populateTable(tableData); // Load table with data
-
+        tableData = data.values || [];
+        if (tableData.length === 0) {
+            document.getElementById("csvTable").innerHTML = "<p>No data found.</p>";
+            return;
+        }
+        // Create header once using the first row (header row)
+        populateHeader(tableData[0]);
+        // Initially, all data rows are unfiltered
+        filteredData = tableData.slice(1);
+        populateBody(filteredData);
     } catch (error) {
         console.error("Error loading data:", error);
     }
 }
 
-// Populate table and lock header row
-function populateTable(rows) {
-    const table = document.getElementById("csvTable");
-    const thead = table.querySelector("thead");
-    const tbody = table.querySelector("tbody");
+// Create the table header with dropdown filters for columns C (index 2) and D (index 3) and F (index 5)
+function populateHeader(headerRowData) {
+    const thead = document.getElementById("csvTable").querySelector("thead");
+    let headerRow = "<tr>";
+    let filterRow = "<tr>";
 
-    if (!rows.length) {
-        table.innerHTML = "<p>No data found.</p>";
-        return;
-    }
+    headerRowData.forEach((header, index) => {
+        headerRow += `<th>${header}</th>`;
 
-    // Create table header once and do not change it
-    if (thead.innerHTML.trim() === "") {
-        thead.innerHTML = "<tr>" + rows[0].map((header, index) =>
-            `<th onclick="sortTable(${index})">${header} ⬍</th>`).join('') + "</tr>";
-    }
-
-    // Populate table body with data rows only (excluding header)
-    tbody.innerHTML = rows.slice(1).map((row, rowIndex) =>
-        `<tr data-index="${rowIndex + 1}">${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`
-    ).join('');
-
-    filteredData = rows.slice(1); // Store filtered rows for random selection
-}
-
-// Sort table by column index while keeping header row fixed
-let sortDirection = {}; // Track sort direction per column
-function sortTable(colIndex) {
-    sortDirection[colIndex] = !sortDirection[colIndex]; // Toggle sort direction
-
-    const sortedData = [...tableData.slice(1)].sort((a, b) => {
-        let valA = a[colIndex].toLowerCase();
-        let valB = b[colIndex].toLowerCase();
-        return sortDirection[colIndex] ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        // For columns C and D and F add a dropdown filter
+        if (index === 2 || index === 3 || index === 5) {
+            const uniqueValues = [...new Set(tableData.slice(1).map(row => row[index]))].sort();
+            filterRow += `
+          <th>
+            <select id="filter-${index}" onchange="applyFilters()">
+              <option value="">All</option>
+              ${uniqueValues.map(value => `<option value="${value}">${value}</option>`).join('')}
+            </select>
+          </th>`;
+        } else {
+            filterRow += `<th></th>`;
+        }
     });
 
-    populateTable([tableData[0], ...sortedData]); // Keep header row intact
+    headerRow += "</tr>";
+    filterRow += "</tr>";
+    thead.innerHTML = headerRow + filterRow;
 }
 
-// Filter table rows based on search input
-function filterTable() {
+// Populate only the table body based on an array of rows (excluding the header row)
+function populateBody(rows) {
+    const tbody = document.getElementById("csvTable").querySelector("tbody");
+    tbody.innerHTML = rows
+        .map((row, rowIndex) => {
+            return `<tr data-index="${rowIndex + 1}">` +
+                row
+                    .map((cell, cellIndex) => {
+                        // For Column B (index 1), create a hyperlink if Column E (index 4) has a value.
+                        if (cellIndex === 1) {
+                            if (row.length > 4 && row[4]) {
+                                const discogsReleaseID = row[4].trim();
+                                // Use the original text from Column B (cell) as the link text.
+                                return `<td><a href="https://www.discogs.com/release/${discogsReleaseID}" target="_blank">${cell}</a></td>`;
+                            } else {
+                                return `<td>${cell}</td>`;
+                            }
+                        } else {
+                            return `<td>${cell}</td>`;
+                        }
+                    })
+                    .join('') +
+                `</tr>`;
+        })
+        .join('');
+    
+        // Updates the Row Count in Real Time
+        document.getElementById("rowCount").textContent = `Chooses from Filters/Search: ${rows.length}`;
+}
+
+// Applies filters based on dropdown selection to the table (for columns C and D and F)
+function applyFilters() {
     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-    filteredData = tableData.slice(1).filter(row =>
-        row.some(cell => cell.toLowerCase().includes(searchTerm))
-    ); // Store filtered rows
+    const filterC = document.getElementById("filter-2")?.value.toLowerCase() || "";
+    const filterD = document.getElementById("filter-3")?.value.toLowerCase() || "";
+    const filterF = document.getElementById("filter-5")?.value.toLowerCase() || "";
 
-    populateTable([tableData[0], ...filteredData]); // Keep header row
+    filteredData = tableData.slice(1).filter(row => {
+        const matchesSearch = row.some(cell => cell.toLowerCase().includes(searchTerm));
+        const matchesFilterC = filterC === "" || (row[2] && row[2].toLowerCase() === filterC);
+        const matchesFilterD = filterD === "" || (row[3] && row[3].toLowerCase() === filterD);
+        const matchesFilterF = filterF === "" || (row[5] && row[5].toLowerCase() === filterF);
+        return matchesSearch && matchesFilterC && matchesFilterD && matchesFilterF;
+    });
+
+    populateBody(filteredData);
 }
 
-let selectedRow = null; // Track the currently selected row
-
+// Pick a random row from the currently filtered data and highlight it
+// Next phase for this will be to pop out a "Now Playing" info box for the selected record (instead of highlighting a Row)
 function pickRandomRow() {
     if (selectedRow) {
-        // Unselect previously selected row
         selectedRow.classList.remove("highlight");
         selectedRow = null;
         return;
     }
-
     if (filteredData.length === 0) {
         alert("No data available to pick from!");
         return;
     }
-
-    // Select a random row index
-    const randomIndex = Math.floor(Math.random() * filteredData.length) + 1; // +1 to skip header row
+    // Data-index values in tbody start at 1 up to filteredData.length
+    const randomIndex = Math.floor(Math.random() * filteredData.length) + 1;
     selectedRow = document.querySelector(`tr[data-index="${randomIndex}"]`);
 
     if (selectedRow) {
@@ -94,4 +128,7 @@ function pickRandomRow() {
     }
 }
 
-loadGoogleSheetsData(); // Load data on page load
+loadGoogleSheetsData();
+
+/* DISCOGS URL FORMAT */
+// `https://www.discogs.com/release/{$discogsReleaseID}`
