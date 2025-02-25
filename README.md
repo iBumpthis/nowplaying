@@ -1,6 +1,9 @@
 # Now iBumping Record Web App
 Capable of running locally with the index.html file with the addition of pulling data from a Google Sheet
 
+# Alpha Build Screenshot
+https://github.com/iBumpthis/nowplaying/blob/main/app_2025_02_24_screenshot.png
+
 # Current Requirements
 - Creation of a Google Sheet with the formatting found below
 - Setting Google Sheet to "Anyone with link" share visibility
