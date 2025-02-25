@@ -43,3 +43,5 @@ Column headers are as follows
 - Updating of CSS and styling
 - (Long Term) Database Read/Write for updating on the fly, removal of Google Sheets Requirement - will likely be a new fork
 - (Long Term) Pulling and storing of Images from external source for larger collections to reduce manual work
+- (Long Term) Allowing connection to the Discogs API for pulling of collection info - will likely be a new fork - also not sold on doing this as I want this to be able to work standalone without heavy web calls for display on a Pi/Simple tablet/small screen near a record player
+- (So Long Term It Is Not Worth Really Discussing) Connection to a listening API that will kick off in passive listening mode for when a needle is dropped and a record starts playing - services that do this off analog records (without digital payload input) and have a callable API do not really appear to exist, though
