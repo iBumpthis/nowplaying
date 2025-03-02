@@ -54,6 +54,7 @@ Column headers are as follows
 - Setting up OAuth for write back/edit capabilities to the sheet
 - Commented sections to allow for running directly from a CSV or DB
 - Image directory that will likely use the format {discogsID}.png to pull album or artist images, currently only a 150x150 placeholder exists
+- Support for multiple image type formats (jpg/jpeg/png/gif/bmp/svg/etc)
 - Updating of CSS and styling
 - (Long Term) Database Read/Write for updating on the fly, removal of Google Sheets Requirement - will likely be a new fork
 - (Long Term) Pulling and storing of Images from external source for larger collections to reduce manual work
