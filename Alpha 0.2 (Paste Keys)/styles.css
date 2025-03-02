@@ -1,0 +1,234 @@
+/* Core Site Styles */
+body {
+    background-color: lightblue;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Sticky Header Row */
+th {
+    background-color: lightslategray;
+    cursor: pointer;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Cell Styling */
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    background-color: lightgrey;
+}
+
+/* Sticky header for the first header row (column names) */
+thead tr:first-child th {
+    background-color: lightslategray;
+    position: sticky;
+    top: 0;
+    border: 1px solid black;
+    z-index: 3; /* Higher z-index to overlap the filter row */
+  }
+  
+  /* Sticky header for the second header row (dropdown filters) */
+  thead tr:nth-child(2) th {
+    background-color: lightslategray;
+    position: sticky;
+    top: 35px; /* Adjust this value based on your first row's height */
+    z-index: 2;
+    border: 1px solid black;
+  }
+
+  #csvTable td:nth-child(7) input[type="checkbox"] {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Search Input Styling */
+#searchInput {
+    width: 33%;
+    padding: 8px;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 16px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Button Styling */
+button {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Highlight Selected Row */
+.highlight {
+    background-color: mediumblue !important;
+    color: white;
+    font-weight: bold;
+}  
+
+/* Hide Column E (the 5th column) */
+#csvTable th:nth-child(5),
+#csvTable td:nth-child(5) {
+    display: none;
+}
+
+/* Info Modal Display */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0; /* Aligns it to the top of the screen */
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: flex-start; /* Moves the modal content towards the top */
+    padding-top: 20px; /* Adds slight spacing */
+}
+
+.modal-content {
+    background-color: lightgrey;
+    margin: 5% auto; /* Moves it closer to the top */
+    text-align: center;
+    padding: 20px;
+    max-width: 80%;
+    border-radius: 10px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+  
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+  
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.modal-header {
+    font-size: 2em;
+    color: darkslategray;
+}
+
+.modal-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+/* Thumbnail Styling */
+.modal-thumbnail {
+    max-width: 150px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.modal-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* Full Image Modal - Proper Scaling & Positioning */
+.full-image-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0; /* Aligns modal to the very top */
+    width: 100%;
+    height: 100vh; /* Takes full screen height */
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligns content to the top */
+    padding-top: 20px; /* Adds some padding */
+}
+
+/* Full Image Modal Content */
+.full-image-modal-content {
+    background-color: lightgrey;
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90vh; /* Ensures modal doesn't go beyond screen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* Prevents scrolling */
+    border-radius: 10px;
+}
+
+/* Full Image */
+.modal-full-image {
+    max-width: 100%;
+    max-height: 80vh; /* Image scales properly without overflowing */
+    object-fit: contain; /* Maintains aspect ratio */
+}
+
+/* Button Container */
+.full-image-buttons {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Buttons */
+button {
+    padding: 10px;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.spin-it-link {
+    font-size: 2em;
+    color: darkslategray;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.spin-it-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Now iBumping</title>
+            <link rel="stylesheet" href="styles.css">
+        </head>
+<body>
+    <!-- Main Body -->
+    <div class="center">
+        <h2>Spin Some Vinyl</h2>
+    </div>
+    <div class="search">
+        <!-- Search from Rows -->
+        <input type="text" id="searchInput" placeholder="Search..." onkeyup="applyFilters()"> 
+    </div>
+    <div class="center">
+        <!-- Random Record Button -->
+        <button onclick="pickRandomRow()">Choose a Random Record</button>
+    </div>
+    <div id="rowCount" style="text-align: center; margin-top: 5px;"></div>
+
+    <!-- Google Sheets Table -->
+    <table id="csvTable">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Info Modal (Hidden by Default) -->
+    <div id="randomDialog" class="modal">
+        <div class="modal-content">
+            <div id="dialogContent"></div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+
+</body>
+<footer>
+    <div class="center"><br />iBumpthis - 2025<br /></div>
+</footer>
+</html>
