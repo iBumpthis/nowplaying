@@ -10,7 +10,10 @@ https://github.com/iBumpthis/nowplaying/blob/main/app_2025_02_24_screenshot.png
 - Creation of a Google API Key (https://support.google.com/googleapi/answer/6158862?hl=en)
 - Swapping in the Sheet ID and Sheets API key to the main.js file if running locally
 
-# Google Sheet Formatting
+# Example Google Doc Formatting
+https://docs.google.com/spreadsheets/d/1ljUYJxvntdMKfg8d3aMIZsoN5D7eGAIF-AmcUvfijGk/edit?usp=sharing
+If you format your Google Document like this (column headers, info, etc.) the application should function
+
 Column headers are as follows
 - Artist
 - Title
@@ -18,7 +21,18 @@ Column headers are as follows
 - Sub-Genre
 - DiscogsID
 - Location
-- Recent
+- Recent (Checkbox)
+
+# DiscogsID Column Notes
+- The DiscogsID column generates URLs to Discogs entries (off creating a variable from the DiscogsID value and adding a URL to the Title column entry
+- The ID is not visible within the table as a column, it is only used for other backend functions
+- The current image URL is also based on the data stored in the DiscogsID column, any text can function here and call to an image (but this would break the Discogs URL link)
+
+# Images Path(s)
+- Images are called based on the DiscogsID column noted above in JPG format currently under the format ${rowData[4]}.jpg
+- Thumbnail images are stored in "./records/thumbs/${rowData[4]}.jpg" when the information modal is loaded
+- Full images are stored in "./records/full/${rowData[4]}.jpg" when the album art modal is loaded (clicking on [SPIN IT] or the thumbnail)
+- There is a placeholder.jpg in both Thumbs and Full that will operate as a fallback in the case the DiscogsID file named .jpg is not present
 
 # Google Sheet Info
 - Artist (Artist Name)
